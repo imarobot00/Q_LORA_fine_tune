@@ -1,0 +1,81 @@
+{
+  "data_file": "/home/bipul/Bipul/Personal Projects/QLORA_Fine_Tune/data/raw/data.json",
+  "n_records": 638,
+  "malformed_lines": 0,
+  "task_types": {
+    "code": 227,
+    "numeric": 411
+  },
+  "areas": {
+    "filter_design": 53,
+    "link_budget": 10,
+    "sampling_theory": 86,
+    "spectral_analysis": 42,
+    "windowing": 47,
+    "resampling": 61,
+    "convolution_correlation": 44,
+    "modulation": 78,
+    "decibels_power": 103,
+    "noise": 2,
+    "capacity": 50,
+    "quantization": 62
+  },
+  "suggested_domains": {
+    "DSP": 395,
+    "Wireless": 62,
+    "Modulation": 78,
+    "RF Fundamentals": 103
+  },
+  "sources": {
+    "llm": 638
+  },
+  "verified": {
+    "True": 638
+  },
+  "completeness": {
+    "empty_instruction": 0,
+    "empty_response": 0,
+    "missing_id": 0,
+    "empty_input": 637,
+    "missing_required": {}
+  },
+  "duplicates": {
+    "duplicate_ids": 81,
+    "duplicate_id_records": 622,
+    "exact_instruction_groups": 42,
+    "exact_redundant_records": 550,
+    "unique_instructions": 88,
+    "pure_dup_groups": 6,
+    "pure_dup_droppable_records": 28,
+    "same_instruction_diff_solution_groups": 36,
+    "normalized_groups": 42,
+    "normalized_redundant_records": 550,
+    "near_dup_threshold": 0.9,
+    "near_dup_pairs": 1593,
+    "near_dup_records_involved": 291
+  },
+  "token_length": {
+    "method": "qwen-tokenizer",
+    "full_example": {
+      "count": 638,
+      "min": 99,
+      "mean": 222.7,
+      "p50": 198,
+      "p90": 293,
+      "p95": 321,
+      "p99": 579,
+      "max": 896
+    },
+    "response_only": {
+      "count": 638,
+      "min": 34,
+      "mean": 134.7,
+      "p50": 113,
+      "p90": 205,
+      "p95": 226,
+      "p99": 472,
+      "max": 812
+    },
+    "recommended_max_seq_length": 512
+  }
+}

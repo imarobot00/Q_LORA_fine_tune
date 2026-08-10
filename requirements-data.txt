@@ -1,0 +1,18 @@
+# CPU-only data & evaluation-analysis environment (no GPU required).
+# Used for: data inspection, cleaning, splitting, benchmark authoring, leakage
+# audit, and results analysis/plots. Does NOT include the GPU training stack
+# (torch / unsloth / bitsandbytes) — see requirements.txt for that.
+#
+#   uv venv .venv && source .venv/bin/activate
+#   uv pip install -r requirements-data.txt
+numpy>=1.26
+transformers>=4.44        # tokenizer only (exact Qwen token counts); torch not needed
+jinja2>=3.1               # required by transformers to render chat templates
+huggingface_hub>=0.24
+pyyaml>=6.0
+pandas>=2.0
+scipy>=1.11
+scikit-learn>=1.3
+statsmodels>=0.14
+matplotlib>=3.7
+tqdm>=4.66

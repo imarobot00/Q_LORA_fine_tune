@@ -1,0 +1,8 @@
+# Base model + quantization (QLoRA). See WEEK_11 plan §3.1-§3.2.
+base_model: Qwen/Qwen2.5-7B-Instruct
+load_in_4bit: true
+bnb_4bit_quant_type: nf4
+bnb_4bit_use_double_quant: true
+bnb_4bit_compute_dtype: bfloat16   # use float16 on GPUs without bf16 (e.g. T4)
+max_seq_length: 1024               # data audit: full-ex p95=321, max=896 -> 1024 = zero truncation
+dtype: null                        # null -> let Unsloth auto-detect (bf16/fp16)

@@ -1,0 +1,31 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Model weights / adapters / caches (these live on the HF Hub, not in git) ---
+*.safetensors
+*.bin
+*.pt
+*.gguf
+outputs/
+checkpoints/
+results/experiments/*/checkpoint-*/
+hf_cache/
+.cache/
+wandb/
+
+# --- OS / editor ---
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# --- Personal daily plan (kept local, not part of the shipped repo) ---
+instructions.md

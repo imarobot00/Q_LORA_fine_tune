@@ -1,0 +1,16 @@
+# LoRA adapter config — STARTING point (plan §3.3), NOT universally optimal.
+# Small-data lean: moderate rank, dropout for regularization.
+r: 16
+lora_alpha: 16
+lora_dropout: 0.05
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+bias: none
+use_gradient_checkpointing: unsloth
+random_state: 3407

@@ -1,0 +1,44 @@
+# ============================================================================
+# RF-QLoRA — Python dependencies
+# ============================================================================
+# Target: a CUDA GPU machine (>=16 GB VRAM). Python 3.10-3.11 is recommended for
+# the training stack (Unsloth / torch / bitsandbytes can lag on 3.13).
+#
+# INSTALL ORDER (on the GPU box):
+#   1) Install PyTorch matching your CUDA build FIRST, e.g. (CUDA 12.1):
+#        pip install torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121
+#   2) Install Unsloth (pulls compatible xformers/bitsandbytes/triton):
+#        pip install "unsloth @ git+https://github.com/unslothai/unsloth.git"
+#        (see https://github.com/unslothai/unsloth#installation-instructions)
+#   3) Install the rest:
+#        pip install -r requirements.txt
+#   4) Freeze EXACT versions for reproducibility (this is the Monday "verify" step):
+#        pip freeze > requirements.lock.txt
+#
+# The CPU-only data-inspection step (scripts/00_inspect_data.py) needs only
+# numpy (+ optionally transformers for exact token counts).
+# ============================================================================
+
+# --- Core training stack (GPU) ---
+torch>=2.3,<2.6
+unsloth>=2024.8
+transformers>=4.44,<4.47
+trl>=0.9,<0.12
+peft>=0.12,<0.15
+bitsandbytes>=0.43,<0.45
+accelerate>=0.33,<0.35
+datasets>=2.20,<3.2
+
+# --- Hub / IO / configs ---
+huggingface_hub>=0.24
+pyyaml>=6.0
+sentencepiece>=0.2
+
+# --- Evaluation / analysis / plots ---
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+matplotlib>=3.7
+scikit-learn>=1.3
+statsmodels>=0.14        # McNemar's test for paired base-vs-QLoRA comparison
+tqdm>=4.66
