@@ -9,6 +9,7 @@ numpy>=1.26
 transformers>=4.44        # tokenizer only (exact Qwen token counts); torch not needed
 jinja2>=3.1               # required by transformers to render chat templates
 huggingface_hub>=0.24
+datasets>=2.20            # download external HF datasets (scripts/01_fetch_external.py)
 pyyaml>=6.0
 pandas>=2.0
 scipy>=1.11

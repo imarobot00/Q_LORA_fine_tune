@@ -27,5 +27,8 @@ wandb/
 .idea/
 .vscode/
 
+# --- Downloaded / derived external datasets (regenerate via scripts/01_fetch_external.py) ---
+data/external/
+
 # --- Personal daily plan (kept local, not part of the shipped repo) ---
 instructions.md
