@@ -15,6 +15,8 @@ step by step and explains every word.
   dataset**.
 - **Biggest discovery:** your file has **638 rows, but only 88 are actually unique** — the
   rest are duplicates or near-duplicates. That changes the plan a lot.
+- **The fix:** I added two real public datasets (electrical-engineering + physics) and merged
+  them with yours, going from **88 unique → 3,207 unique** examples — still in your RF domain.
 - Your computer **has no GPU**, so the actual AI training must happen later on a different
   machine (a GPU box, Google Colab, or Kaggle). Everything that *doesn't* need a GPU is done.
 - I saved all the work with **git** (a save point). Nothing was uploaded to the internet.
@@ -60,6 +62,8 @@ Think of it like preparing a kitchen before cooking:
 7. **Set up a clean, separate toolbox** (a Python "virtual environment").
 8. **Hit one more small snag** (a missing library called `jinja2`), fixed it.
 9. **Created a save point** with git.
+10. **After inspecting**, I realized 88 unique was too few, so I **downloaded two real public
+    datasets** and merged them in, growing it to ~3,200 unique examples (see Section 7).
 
 No cooking (AI training) yet — that needs the GPU oven you don't have here.
 
@@ -347,7 +351,65 @@ to get fake results later.
 
 ---
 
-## 7. What's blocked (no GPU) and what to do about it
+## 7. The fix: I added real datasets
+
+88 unique questions is far too few to fine-tune on. Instead of giving up on your RF domain, I
+**added two real, public datasets** that fit it and merged them with your data.
+
+### What I added
+
+| Source | What it is | Rows kept |
+|---|---|---|
+| Your original data | RF/DSP code + numeric problems | 638 |
+| `STEM-AI-mtl/Electrical-engineering` | Electrical-engineering Q&A | 1,131 |
+| `camel-ai/physics` (filtered) | Physics Q&A — kept only electromagnetism / optics / waves | 2,000 |
+
+### The new numbers
+
+| Before | After |
+|---|---|
+| 638 rows, **88 unique** | 3,769 rows, **3,207 unique** |
+
+That's roughly a **36x jump** in unique training material — and it's all still in the
+RF / electrical-engineering / physics family, so your Week 11 plan still holds.
+
+### How I did it (one script)
+
+I wrote `scripts/01_fetch_external.py`. It:
+
+1. Downloads both datasets from Hugging Face (a public library of datasets).
+2. Converts them into **your exact format** (`instruction / input / output / ...`), and marks
+   them `verified: false` and `task_type: "qa"` so you can always tell them apart from your own.
+3. Saves them in `data/external/`, including a combined file `all_combined.jsonl`.
+
+You can run it yourself anytime:
+
+```bash
+uv pip install -r requirements-data.txt
+.venv/bin/python scripts/01_fetch_external.py --with-raw
+```
+
+Handy flags: `--max-physics 1500` (how much physics to keep), `--skip-physics` (if that one
+download misbehaves).
+
+### One hiccup (and how I fixed it)
+
+The physics dataset is one big `physics.zip`, and your internet kept **timing out** mid-download
+(you saw lots of "read operation timed out" and "connection reset" messages). I changed the
+script to **download the whole file once with resume** — it picks up where it left off instead
+of restarting — with a longer timeout, and made a physics failure **non-fatal** (you always keep
+the EE data). After that it downloaded cleanly.
+
+### Quick note on git (you asked earlier)
+
+Your `scripts/` and `configs/` folders are **tracked and already in your GitHub repo** — they
+are **not** ignored. The only things ignored are `instructions.md`, `.venv/`, caches, model
+weights, and now `data/external/` (because the script can regenerate it). So nothing important
+is missing.
+
+---
+
+## 8. What's blocked (no GPU) and what to do about it
 
 Two Monday tasks need a GPU and are therefore **paused** (not skipped):
 
@@ -367,7 +429,7 @@ and whether all the training libraries are installed.
 
 ---
 
-## 8. Glossary (plain-English definitions)
+## 9. Glossary (plain-English definitions)
 
 - **Model / base model:** the pre-trained AI we start from (`Qwen2.5-7B-Instruct`). "7B" = 7
   billion internal numbers ("parameters").
@@ -391,19 +453,21 @@ and whether all the training libraries are installed.
 
 ---
 
-## 9. What's next (Tuesday)
+## 10. What's next (Tuesday)
 
-1. **Clean the data:** remove the 28 exact duplicates; decide how to handle the 36
-   same-question/different-solution groups.
-2. **Split by unique question** into a study set (train) and a check set (validation) — with
+Now that you have ~3,200 unique examples (RF/DSP + EE + physics), the plan continues:
+
+1. **Decide the domain mix:** 638 RF/DSP + 1,131 EE + 2,000 physics. Choose how much of each to
+   keep so the model stays RF-focused (physics can easily dominate if left unchecked).
+2. **Clean + dedupe** the combined data (drop exact and near-duplicates).
+3. **Split by unique question** into a study set (train) and a check set (validation) — with
    **no leakage**.
-3. **Hand-write the 100-question multiple-choice test**, adjusted for the fact that there's no
-   SDR data and some topics are thin.
-4. **Prove there's no overlap** between the test and the study data.
+4. **Hand-write the 100-question multiple-choice test**, matched to the topics you keep.
+5. **Prove there's no overlap** between the test and the training data.
 
-Everything today was about building a trustworthy foundation so those next steps — and the
-eventual training and grading — are **fair and believable**. That's the whole point: not just to
-get a number, but to get a number you can **defend**.
+Everything so far was about building a trustworthy foundation — and getting enough real data —
+so the eventual training and grading are **fair and believable**. The point isn't just to get a
+number, but to get a number you can **defend**.
 
 ---
 
